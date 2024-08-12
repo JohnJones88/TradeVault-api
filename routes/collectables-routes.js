@@ -63,7 +63,7 @@ router.post('/', validateToken, async (req, res) => {
       description: req.body.description,
       age: req.body.age,
       condition: req.body.condition,
-      image: req.body.image
+      collectableImageUrl: req.body.image
 
     });
     res.status(201).send(newCollectable);
@@ -92,6 +92,10 @@ router.put('/:id', validateToken, async (req, res) => {
     }
     if (!req.body.condition) {
       res.status(400).send('condition must have a value.')
+      return;
+    }
+    if (!req.body.image) {
+      res.status(400).send('image must have a value.')
       return;
     }
     const toUpdateCollectable = await Collectables.findByPk(req.params.id)
