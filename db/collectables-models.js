@@ -1,5 +1,6 @@
 const { sequelize } = require('./data-connections');
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize');
+const Users = require('./users-models');
 
 const Collectables = sequelize.define('collectables', {
   id: {
@@ -25,6 +26,9 @@ const Collectables = sequelize.define('collectables', {
   },
   
 })
+
+Users.hasMany(Collectables);
+Collectables.belongsTo(Users);
 
 
 module.exports = Collectables;

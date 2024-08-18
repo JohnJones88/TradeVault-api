@@ -22,7 +22,7 @@ app.use('/login', loginRoutes)
 
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`)
   await connectToDb();

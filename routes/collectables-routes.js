@@ -3,6 +3,7 @@ const router = express.Router();
 const { Sequelize } = require('sequelize');
 const Collectables = require('../db/collectables-models');
 const { validateToken } = require('../utils/authentication');
+const Users = require('../db/users-models');
 
 router.get('/', validateToken,  async (req, res) => {
   try {
@@ -121,5 +122,20 @@ router.delete('/:id', async (req, res) => {
       res.status(500).send(`Internal Server Error ${error}`)
   }
 })
+router.get('/:userId/:id', async (req, res) => {
+  try {
+    const findUser = await Users.findByPk(req.params.userId, {
+      include: [
+        {
+          model: Collectables
+        }
+      ]
+    });
+    res.send(findUser.collectables);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(`Internal Server Error ${error}`)
+  }
+});
 
 module.exports = router;
