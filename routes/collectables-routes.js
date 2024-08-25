@@ -78,6 +78,39 @@ router.post('/', validateToken, async (req, res) => {
     res.status(500).send(`Internal Server Error ${error}`)
   }
 })
+router.post('/search', validateToken, async (req, res) => {
+  try {
+
+    let whereStatment = {};
+    if (req.body.name) {
+      whereStatment.name = {
+        [Op.like]: `%${req.body.name}%`,
+      }
+    }
+    if (req.body.condition) {
+      whereStatment.condition = {
+        [Op.eq]: req.body.condition,
+      }
+    }
+    if (req.body.description) {
+      whereStatment.description = {
+        [Op.like]: `%${req.body.description}%`,
+      }
+    }
+    if (req.body.age) {
+      whereStatment.age = {
+        [Op.eq]: req.body.age,
+      }
+    }
+    let collectables = await Collectables.findAll({
+      where: whereStatment
+    });
+    res.send(collectables)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(`Internal Server Error ${error}`)
+  }
+})
 router.put('/:id', validateToken, async (req, res) => {
   try {
     if (!req.body.name) {
@@ -109,7 +142,11 @@ router.put('/:id', validateToken, async (req, res) => {
       toUpdateCollectable.description = req.body.description,
       toUpdateCollectable.age = req.body.age,
       toUpdateCollectable.condition = req.body.condition,
+<<<<<<< HEAD
       toUpdateCollectable.imageUrl = req.body.image
+=======
+      toUpdateCollectable.collectableImageUrl = req.body.image
+>>>>>>> af2f7ea76d7469c51ffe38321e454a120b7542f5
 
     await toUpdateCollectable.save();
     res.status(200).send();
