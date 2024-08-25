@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2');
 const { connectToDb } = require('./db/data-connections');
-const collectablesRoutes = require('./routes/collectables-routes')
-const usersRoutes = require('./routes/users-routes.js')
-const loginRoutes = require('./routes/login-routes.js')
+const collectablesRoutes = require('./routes/collectables-routes');
+const usersRoutes = require('./routes/users-routes.js');
+const loginRoutes = require('./routes/login-routes.js');
 
 
 
