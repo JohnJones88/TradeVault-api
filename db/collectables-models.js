@@ -24,7 +24,7 @@ const Collectables = sequelize.define('collectables', {
   condition: {
     type: DataTypes.ENUM('mint', 'excellent', 'very good', 'poor')
   },
-  collectableImageUrl: {
+ imageUrl: {
     type: DataTypes.STRING(256),
     allowNull: false
   }

@@ -12,23 +12,24 @@ validateToken = (req, res, next) => {
   token = token.replace("Bearer ", "");
 
   
-  jwt.verify(token, secretKey, function (err, decoded) {
+  jwt.verify(token, secretKey, function (err, /*decoded,*/ user) {
     if (err) {
       res.status(401).send();
       return;
     }
+    req.userId = user.userId;
 
     next();
   });
 }
 
 
-function createToken(signup) {
+function createToken(user) {
   const token = jwt.sign({
-    id: signup.id,
-    firstName: signup.first_name,
-    lastName: signup.last_name,
-    email: signup.email
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email
   }, secretKey, { expiresIn: '2h' });
 
   return token;

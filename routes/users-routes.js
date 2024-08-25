@@ -56,5 +56,21 @@ router.post('/', async (req, res) => {
         res.status(500).send(`Internal Server Error ${error}`);
     }
 })
+router.get('/:userId/collectables/:id', validateToken, async (req, res) => {
+    try {
+      const findUser = await Users.findByPk(req.params.userId, {
+        include: [
+          {
+            model: Collectables
+          }
+        ]
+      });
+      res.send(findUser.collectables);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(`Internal Server Error ${error}`)
+    }
+  });
+  
 
 module.exports = router;

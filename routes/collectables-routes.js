@@ -55,7 +55,7 @@ router.post('/', validateToken, async (req, res) => {
       res.status(400).send('Condition must have a value.')
       return;
     }
-    if (!req.body.image) {
+    if (!req.body.imageUrl) {
       res.status(400).send('Image must have a value.')
       return;
     }
@@ -64,7 +64,8 @@ router.post('/', validateToken, async (req, res) => {
       description: req.body.description,
       age: req.body.age,
       condition: req.body.condition,
-      collectableImageUrl: req.body.image
+      imageUrl: req.body.imageUrl,
+      userId : req.body.userId
 
     });
     res.status(201).send(newCollectable);
@@ -95,7 +96,7 @@ router.put('/:id', validateToken, async (req, res) => {
       res.status(400).send('condition must have a value.')
       return;
     }
-    if (!req.body.image) {
+    if (!req.body.imageUrl) {
       res.status(400).send('image must have a value.')
       return;
     }
@@ -108,20 +109,21 @@ router.put('/:id', validateToken, async (req, res) => {
       toUpdateCollectable.description = req.body.description,
       toUpdateCollectable.age = req.body.age,
       toUpdateCollectable.condition = req.body.condition,
-      toUpdateCollectable.image = req.body.image
+      toUpdateCollectable.imageUrl = req.body.image
 
     await toUpdateCollectable.save();
     res.status(200).send();
   } catch (error) {
     if (error.name === "SequelizeDatabaseError" && error.original.sqlMessage.includes('condition')) {
       res.status(400).send("Condition can only be Mint, Excellent, Very Good and Poor")
+      return;
     }
     console.log(error);
     res.status(500).send(`Internal Server Error ${error}`)
   }
 
 })
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateToken , async (req, res) => {
   try {
     const deleteCollectable = await Collectables.findByPk(req.params.id);
     await deleteCollectable.destroy();
@@ -147,5 +149,4 @@ router.get('/:userId/:id', async (req, res) => {
     res.status(500).send(`Internal Server Error ${error}`)
   }
 });
-
 module.exports = router;
