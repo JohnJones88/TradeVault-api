@@ -65,7 +65,7 @@ router.post('/', validateToken, async (req, res) => {
       age: req.body.age,
       condition: req.body.condition,
       imageUrl: req.body.imageUrl,
-      userId : req.body.userId
+      userId : req.currentUserId
 
     });
     res.status(201).send(newCollectable);
@@ -142,11 +142,7 @@ router.put('/:id', validateToken, async (req, res) => {
       toUpdateCollectable.description = req.body.description,
       toUpdateCollectable.age = req.body.age,
       toUpdateCollectable.condition = req.body.condition,
-<<<<<<< HEAD
-      toUpdateCollectable.imageUrl = req.body.image
-=======
-      toUpdateCollectable.collectableImageUrl = req.body.image
->>>>>>> af2f7ea76d7469c51ffe38321e454a120b7542f5
+      toUpdateCollectable.imageUrl = req.body.imageUrl
 
     await toUpdateCollectable.save();
     res.status(200).send();

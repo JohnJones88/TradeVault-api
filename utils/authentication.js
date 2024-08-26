@@ -12,12 +12,13 @@ validateToken = (req, res, next) => {
   token = token.replace("Bearer ", "");
 
   
-  jwt.verify(token, secretKey, function (err, /*decoded,*/ user) {
+  jwt.verify(token, secretKey, function (err, decoded) {
     if (err) {
       res.status(401).send();
       return;
     }
-    req.userId = user.userId;
+    req.currentUserId = decoded.id;
+    
 
     next();
   });
