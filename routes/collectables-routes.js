@@ -4,6 +4,7 @@ const { Sequelize } = require('sequelize');
 const Collectables = require('../db/collectables-models');
 const { validateToken } = require('../utils/authentication');
 const Users = require('../db/users-models');
+const { Op } = require('sequelize');
 
 router.get('/', validateToken, async (req, res) => {
   try {
@@ -65,7 +66,7 @@ router.post('/', validateToken, async (req, res) => {
       age: req.body.age,
       condition: req.body.condition,
       imageUrl: req.body.imageUrl,
-      userId : req.currentUserId
+      userId: req.currentUserId
 
     });
     res.status(201).send(newCollectable);
@@ -156,7 +157,7 @@ router.put('/:id', validateToken, async (req, res) => {
   }
 
 })
-router.delete('/:id', validateToken , async (req, res) => {
+router.delete('/:id', validateToken, async (req, res) => {
   try {
     const deleteCollectable = await Collectables.findByPk(req.params.id);
     await deleteCollectable.destroy();
